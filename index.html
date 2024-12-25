@@ -120,6 +120,8 @@ Return everything as a JSON object of type {category: 'put category's number her
 
                 if (response && response.message && response.message.content) {
                     console.log(response.message)
+                    const jsonObj = JSON.parse(response.message.content)
+                    console.log(jsonObj)
                     return {
                         title: response.message.content.title,
                         keywords: response.message.content.keywords,
