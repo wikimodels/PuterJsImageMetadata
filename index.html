@@ -12,7 +12,8 @@
             try {
                 const response = await fetch(`${baseUrl}images.json`); // Ensure you have a valid JSON list
                 const imageNames = await response.json();
-                const imageUrls = imageNames.map(name => baseUrl + name);
+                const imageUrls = imageNames.map(name => baseUrl +
+                    'images/' + name);
                 console.log(imageUrls);
                 return imageUrls;
             } catch (error) {
