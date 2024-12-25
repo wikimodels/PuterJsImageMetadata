@@ -10,7 +10,7 @@
         // Function to fetch image list
         async function fetchImageList() {
             try {
-                const response = await fetch(`${baseUrl}images.json`); // Ensure you have a valid JSON list
+                const response = await fetch(`${baseUrl}.json`); // Ensure you have a valid JSON list
                 const imageNames = await response.json();
                 const imageUrls = imageNames.map(name => baseUrl + name);
                 console.log(imageUrls)
