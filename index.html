@@ -120,12 +120,13 @@ Return everything as a JSON object of type {category: 'put category's number her
 
                 if (response && response.message && response.message.content) {
                     console.log(response.message)
-                    const jsonObj = JSON.parse(response.message.content)
-                    console.log("JSON Shit", jsonObj)
+                    const content = data.content.replace(/^```json\n|\n```$/g, '');
+                    // Parse the JSON content
+                    const parsedContent = JSON.parse(content);
                     return {
-                        title: response.message.content.title,
-                        keywords: response.message.content.keywords,
-                        category: response.message.content.category,
+                        title: parsedContent.title,
+                        keywords: parsedContent.keywords,
+                        category: parsedContent.category,
                         imageFile: fileName
                     };
                 } else {
