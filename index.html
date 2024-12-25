@@ -5,12 +5,12 @@
     <h1>Batch Image Analysis 5</h1>
     <script src="https://js.puter.com/v2/"></script>
     <script>
-        const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadata/images/";
+        const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadat/";
 
         // Function to fetch image list
         async function fetchImageList() {
             try {
-                const response = await fetch(`${baseUrl}.json`); // Ensure you have a valid JSON list
+                const response = await fetch(`${baseUrl}.images.json`); // Ensure you have a valid JSON list
                 const imageNames = await response.json();
                 const imageUrls = imageNames.map(name => baseUrl + name);
                 console.log(imageUrls)
