@@ -5,53 +5,57 @@
     <h1>Batch Image Analysis 3</h1>
     <script src="https://js.puter.com/v2/"></script>
     <script>
-        // List of image URLs
-        const imageUrls = [
-            "https://wikimodels.github.io/PuterJsImageMetadata/images/puppy-1.jpg",
-            "https://wikimodels.github.io/PuterJsImageMetadata/images/puppy-2.jpg",
-            "https://wikimodels.github.io/PuterJsImageMetadata/images/man-1.jpg",
-            // Add more image URLs here...
-        ];
-
-        // Function to extract the file name from the URL
-        function getFileName(url) {
-            const urlObject = new URL(url);
-            return urlObject.pathname.split('/').pop();
-        }
-
-        // Function to analyze a single image
-        async function analyzeImage(url) {
-            const fileName = getFileName(url); // Extract the file name from the URL
-
+        async function fetchImageList() {
             try {
-                const response = await puter.ai.chat(
-                    `Please, do this for me: Follow the SEO-Optimized Title Guidelines: For Images of Living Beings (Humans, Animals, etc.): The title should follow the format: [who or what is in the picture] [with what mood] [what they are doing or what it represents] [against what background]. Example: 'A happy young woman with a bright smile reading a book in a cozy coffee shop.' For Non-Living Images (e.g., Objects, Architecture, Nature): The title should follow the format: [what is depicted in the picture] [in what style] [in what colors] [what it represents or what it is used for]. Example: 'Modern abstract geometric shapes in vibrant red and yellow, symbolizing creativity.' If the Image has Space for Text: If the image has a lot of empty space that could be used for text, add [with copy space] to the title. 2. Gimme the keywords that follow the General Guidelines for Keywords: These keywords should cover specific aspects of the image and help improve its discoverability. They must consist of single words. For example, if you need to add 'Asian elder,' break it down into 'Asian' and 'elder.' Keywords must start with more relevant and specific terms and move to more general terms. There should be 49 popular keywords. Make all keywords in lowercase. Note: Do not repeat keywords that are already in the title. Keywords should expand the search terms and help potential users find your image. Below is the general guidance on how to pick up keywords, but additional relevant keywords can be added if necessary. For Humans: Race/Ethnicity: Caucasian, Hispanic, African, Asian, Middle-Eastern, Latino, European, Indian, Black, White, East Asian, South Asian, etc. Gender: Male, Female, Non-binary, Transgender, Man, Woman, Boy, Girl, Masculine, Feminine, etc. Age: Baby, Toddler, Child, Teen, Adult, Senior, Elderly, Youth, Elder, etc. Occupation: Teacher, Doctor, Engineer, Artist, Student, Nurse, CEO, Lawyer, Farmer, Technician, Scientist, Entrepreneur, Waiter, Chef, Accountant, etc. Emotional State: Happy, Sad, Angry, Surprised, Anxious, Calm, Excited, Nervous, Depressed, Proud, etc. Action: Running, Walking, Reading, Cooking, Laughing, Crying, Sleeping, Working, Playing, Talking, Driving, Jumping, etc. Clothing: Shirt, Pants, Jacket, Dress, Skirt, Suit, T-shirt, Sweater, Jeans, Blouse, Tie, etc. Expression: Smiling, Frowning, Laughing, Crying, Neutral, Angry, Pensive, etc. Personality Traits: Friendly, Shy, Outgoing, Confident, Modest, Funny, Serious, Thoughtful, etc. For Animals: Species: Dog, Cat, Elephant, Lion, Tiger, Bear, Giraffe, Dolphin, Snake, Rabbit, Koala, etc. Breed: Labrador, Beagle, Bulldog, Poodle, Persian, Siamese, Shepherd, Dalmatian, Chihuahua, Golden Retriever, etc. Age: Puppy, Kitten, Adult, Senior, Baby, Young, Elder, etc. Color: Black, White, Brown, Grey, Golden, Orange, Yellow, Multicolored, Tan, etc. Size: Small, Medium, Large, Tiny, Giant, Huge, etc. Gender: Male, Female, Neutered, Spayed, etc. Action: Barking, Meowing, Running, Sleeping, Eating, Playing, Swimming, Jumping, etc. Habitat: Jungle, Forest, Ocean, Farm, Zoo, Wild, etc. Purpose: Pet, Wild, Guard, Working, Therapy, Herding, etc. For Objects/Products: Purpose: Kitchen, Office, Toy, Furniture, Decoration, Electronics, Tool, Appliance, Accessory, Art, etc. Material: Wood, Metal, Plastic, Fabric, Paper, Leather, Concrete, Glass, Ceramic, etc. Shape: Round, Square, Rectangular, Cylindrical, Oval, Triangular, etc. Color: Red, Blue, Green, Yellow, Black, White, Monochrome, Vibrant, Pastel, etc. Size: Small, Medium, Large, Compact, Tiny, Jumbo, etc. Usage: Indoor, Outdoor, Travel, Office, School, Utility, Functional, Decorative, etc. Efficiency: Eco-friendly, High-efficiency, Sustainable, Durable, Premium, etc. Risk: Safe, Hazardous, Risky, Dangerous, Protective, etc. Aesthetics: Modern, Vintage, Sleek, Classic, Minimalist, Elegant, etc. Technology: Digital, Electric, Wireless, Smart, Solar-powered, etc. 3. Category Selection: Once the title and keywords are provided, choose the most appropriate category: Animals: Animals, pets, wildlife, insects. Buildings and Architecture: Homes, offices, structures, factories, interiors. Business: Business settings, finance, money, offices. Drinks: Alcohol, beverages, drinks. The Environment: Nature, outdoor, eco-friendly, landscapes. States of Mind: Emotions, feelings, moods. Food: Cooking, meals, ingredients, food preparation. Graphic Resources: Backgrounds, textures, symbols, icons. Hobbies and Leisure: Pastimes, crafts, activities. Industry: Manufacturing, construction, production. Landscape: Nature, cities, rural areas, outdoors. Lifestyle: Daily activities, home, work, personal time. People: Diverse individuals, groups, families, professionals. Plants and Flowers: Botanical life, plants, nature. Culture and Religion: Traditions, beliefs, rituals. Science: Research, technology, science-based content. Social Issues: Politics, social justice, poverty. Sports: Fitness, active, sports events, games. Technology: Computers, gadgets, virtual tech. Transport: Vehicles, cars, travel. Travel: Travel, destinations, culture. 4. Image File Name: attach the image file name. Don't change it in any case. Leave it as it is. Return everything as JSON object of type {title: 'here goes your title', keywords: ['keyword 1', 'keyword 2', ...], imageFile: 'here goes the name of the file which is ${fileName}'}`,
-                    url
-                );
-                return { title: response.message.content };
+                const response = await fetch("https://wikimodels.github.io/PuterJsImageMetadata/images/");
+                const imageNames = await response.json();
+                const imageUrls = imageNames.map(name => baseUrl + name);
+                return imagesUrls;
             } catch (error) {
-                console.error(`Error analyzing image ${url}:`, error);
-                return { title: "Error analyzing image" };
+                console.error('Error fetching image list:', error);
             }
-        }
+            // List of image URLs
+            const imageUrls = await fetchImageList();
 
-        // Function to analyze all images
-        async function analyzeAllImages(urls) {
-            const promises = urls.map(url => analyzeImage(url)); // No need for fileName argument here
-            const results = await Promise.all(promises); // Wait for all analyses to complete
-            return results;
-        }
+            // Function to extract the file name from the URL
+            function getFileName(url) {
+                const urlObject = new URL(url);
+                return urlObject.pathname.split('/').pop();
+            }
 
-        // Run the analysis and display the JSON result
-        analyzeAllImages(imageUrls)
-            .then(results => {
-                console.log("Analysis Results:", results);
-                // Display the JSON as a formatted string
-                document.body.innerHTML += `<pre>${JSON.stringify(results, null, 2)}</pre>`;
-            })
-            .catch(error => {
-                console.error("Error analyzing images:", error);
-            });
+            // Function to analyze a single image
+            async function analyzeImage(url) {
+                const fileName = getFileName(url); // Extract the file name from the URL
+
+                try {
+                    const response = await puter.ai.chat(
+                        `Please, do this for me: Follow the SEO-Optimized Title Guidelines: For Images of Living Beings (Humans, Animals, etc.): The title should follow the format: [who or what is in the picture] [with what mood] [what they are doing or what it represents] [against what background]. Example: 'A happy young woman with a bright smile reading a book in a cozy coffee shop.' For Non-Living Images (e.g., Objects, Architecture, Nature): The title should follow the format: [what is depicted in the picture] [in what style] [in what colors] [what it represents or what it is used for]. Example: 'Modern abstract geometric shapes in vibrant red and yellow, symbolizing creativity.' If the Image has Space for Text: If the image has a lot of empty space that could be used for text, add [with copy space] to the title. 2. Gimme the keywords that follow the General Guidelines for Keywords: These keywords should cover specific aspects of the image and help improve its discoverability. They must consist of single words. For example, if you need to add 'Asian elder,' break it down into 'Asian' and 'elder.' Keywords must start with more relevant and specific terms and move to more general terms. There should be 49 popular keywords. Make all keywords in lowercase. Note: Do not repeat keywords that are already in the title. Keywords should expand the search terms and help potential users find your image. Below is the general guidance on how to pick up keywords, but additional relevant keywords can be added if necessary. For Humans: Race/Ethnicity: Caucasian, Hispanic, African, Asian, Middle-Eastern, Latino, European, Indian, Black, White, East Asian, South Asian, etc. Gender: Male, Female, Non-binary, Transgender, Man, Woman, Boy, Girl, Masculine, Feminine, etc. Age: Baby, Toddler, Child, Teen, Adult, Senior, Elderly, Youth, Elder, etc. Occupation: Teacher, Doctor, Engineer, Artist, Student, Nurse, CEO, Lawyer, Farmer, Technician, Scientist, Entrepreneur, Waiter, Chef, Accountant, etc. Emotional State: Happy, Sad, Angry, Surprised, Anxious, Calm, Excited, Nervous, Depressed, Proud, etc. Action: Running, Walking, Reading, Cooking, Laughing, Crying, Sleeping, Working, Playing, Talking, Driving, Jumping, etc. Clothing: Shirt, Pants, Jacket, Dress, Skirt, Suit, T-shirt, Sweater, Jeans, Blouse, Tie, etc. Expression: Smiling, Frowning, Laughing, Crying, Neutral, Angry, Pensive, etc. Personality Traits: Friendly, Shy, Outgoing, Confident, Modest, Funny, Serious, Thoughtful, etc. For Animals: Species: Dog, Cat, Elephant, Lion, Tiger, Bear, Giraffe, Dolphin, Snake, Rabbit, Koala, etc. Breed: Labrador, Beagle, Bulldog, Poodle, Persian, Siamese, Shepherd, Dalmatian, Chihuahua, Golden Retriever, etc. Age: Puppy, Kitten, Adult, Senior, Baby, Young, Elder, etc. Color: Black, White, Brown, Grey, Golden, Orange, Yellow, Multicolored, Tan, etc. Size: Small, Medium, Large, Tiny, Giant, Huge, etc. Gender: Male, Female, Neutered, Spayed, etc. Action: Barking, Meowing, Running, Sleeping, Eating, Playing, Swimming, Jumping, etc. Habitat: Jungle, Forest, Ocean, Farm, Zoo, Wild, etc. Purpose: Pet, Wild, Guard, Working, Therapy, Herding, etc. For Objects/Products: Purpose: Kitchen, Office, Toy, Furniture, Decoration, Electronics, Tool, Appliance, Accessory, Art, etc. Material: Wood, Metal, Plastic, Fabric, Paper, Leather, Concrete, Glass, Ceramic, etc. Shape: Round, Square, Rectangular, Cylindrical, Oval, Triangular, etc. Color: Red, Blue, Green, Yellow, Black, White, Monochrome, Vibrant, Pastel, etc. Size: Small, Medium, Large, Compact, Tiny, Jumbo, etc. Usage: Indoor, Outdoor, Travel, Office, School, Utility, Functional, Decorative, etc. Efficiency: Eco-friendly, High-efficiency, Sustainable, Durable, Premium, etc. Risk: Safe, Hazardous, Risky, Dangerous, Protective, etc. Aesthetics: Modern, Vintage, Sleek, Classic, Minimalist, Elegant, etc. Technology: Digital, Electric, Wireless, Smart, Solar-powered, etc. 3. Category Selection: Once the title and keywords are provided, choose the most appropriate category: Animals: Animals, pets, wildlife, insects. Buildings and Architecture: Homes, offices, structures, factories, interiors. Business: Business settings, finance, money, offices. Drinks: Alcohol, beverages, drinks. The Environment: Nature, outdoor, eco-friendly, landscapes. States of Mind: Emotions, feelings, moods. Food: Cooking, meals, ingredients, food preparation. Graphic Resources: Backgrounds, textures, symbols, icons. Hobbies and Leisure: Pastimes, crafts, activities. Industry: Manufacturing, construction, production. Landscape: Nature, cities, rural areas, outdoors. Lifestyle: Daily activities, home, work, personal time. People: Diverse individuals, groups, families, professionals. Plants and Flowers: Botanical life, plants, nature. Culture and Religion: Traditions, beliefs, rituals. Science: Research, technology, science-based content. Social Issues: Politics, social justice, poverty. Sports: Fitness, active, sports events, games. Technology: Computers, gadgets, virtual tech. Transport: Vehicles, cars, travel. Travel: Travel, destinations, culture. 4. Image File Name: attach the image file name. Don't change it in any case. Leave it as it is. Return everything as JSON object of type {title: 'here goes your title', keywords: ['keyword 1', 'keyword 2', ...], imageFile: 'here goes the name of the file which is ${fileName}'}`,
+                        url
+                    );
+                    return { title: response.message.content };
+                } catch (error) {
+                    console.error(`Error analyzing image ${url}:`, error);
+                    return { title: "Error analyzing image" };
+                }
+            }
+
+            // Function to analyze all images
+            async function analyzeAllImages(urls) {
+                const promises = urls.map(url => analyzeImage(url)); // No need for fileName argument here
+                const results = await Promise.all(promises); // Wait for all analyses to complete
+                return results;
+            }
+
+            // Run the analysis and display the JSON result
+            analyzeAllImages(imageUrls)
+                .then(results => {
+                    console.log("Analysis Results:", results);
+                    // Display the JSON as a formatted string
+                    document.body.innerHTML += `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+                })
+                .catch(error => {
+                    console.error("Error analyzing images:", error);
+                });
     </script>
 </body>
 
