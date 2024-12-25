@@ -120,7 +120,7 @@ Return everything as a JSON object of type {category: 'put category's number her
 
                 if (response && response.message && response.message.content) {
                     console.log(response.message)
-                    const content = data.content.replace(/^```json\n|\n```$/g, '');
+                    const content = response.message.content.replace(/^```json\n|\n```$/g, '');
                     // Parse the JSON content
                     const parsedContent = JSON.parse(content);
                     console.log("ParsedContent", parsedContent)
