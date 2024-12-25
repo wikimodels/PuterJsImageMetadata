@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h1>Batch Image Analysis 1</h1>
+    <h1>Batch Image Analysis 2</h1>
     <script src="https://js.puter.com/v2/"></script>
     <script>
         const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadata/";
@@ -119,6 +119,7 @@ Return everything as a JSON object of type {category: 'put category's number her
                 );
 
                 if (response && response.message && response.message.content) {
+                    console.log(response.message)
                     return {
                         title: response.message.content.title,
                         keywords: response.message.content.keywords,
