@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <h1>Batch Image Analysis 2</h1>
+    <h1>Batch Image Analysis 3</h1>
     <script src="https://js.puter.com/v2/"></script>
     <script>
         const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadata/";
@@ -123,6 +123,7 @@ Return everything as a JSON object of type {category: 'put category's number her
                     const content = data.content.replace(/^```json\n|\n```$/g, '');
                     // Parse the JSON content
                     const parsedContent = JSON.parse(content);
+                    console.log("ParsedContent", parsedContent)
                     return {
                         title: parsedContent.title,
                         keywords: parsedContent.keywords,
