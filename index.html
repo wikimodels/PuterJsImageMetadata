@@ -1,17 +1,46 @@
+<!DOCTYPE html>
 <html>
 
 <body>
-    <h1>Analysis</h1>
+    <h1>Batch Image Analysis</h1>
     <script src="https://js.puter.com/v2/"></script>
     <script>
-        puter.ai.chat(
-            "What do you see in this image?",
-            "https://wikimodels.github.io/PuterJsImageMetadata/images/puppy-1.jpg"
-        )
-            .then(response => {
-                document.write(response);
-            });
+        // List of image URLs
+        const imageUrls = [
+            "https://wikimodels.github.io/PuterJsImageMetadata/images/puppy-1.jpg",
+            "https://wikimodels.github.io/PuterJsImageMetadata/images/puppy-2.jpg",
+            "https://wikimodels.github.io/PuterJsImageMetadata/images/man-1.jpg",
+            // Add more image URLs here...
+        ];
 
+        // Function to analyze a single image
+        async function analyzeImage(url) {
+            try {
+                const response = await puter.ai.chat("What do you see in this image?", url);
+                return { title: response };
+            } catch (error) {
+                console.error(`Error analyzing image ${url}:`, error);
+                return { title: "Error analyzing image" };
+            }
+        }
+
+        // Function to analyze all images
+        async function analyzeAllImages(urls) {
+            const promises = urls.map(url => analyzeImage(url));
+            const results = await Promise.all(promises); // Wait for all analyses to complete
+            return results;
+        }
+
+        // Run the analysis and display the JSON result
+        analyzeAllImages(imageUrls)
+            .then(results => {
+                console.log("Analysis Results:", results);
+                // Display the JSON as a formatted string
+                document.body.innerHTML += `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+            })
+            .catch(error => {
+                console.error("Error analyzing images:", error);
+            });
     </script>
 </body>
 
