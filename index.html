@@ -6,7 +6,9 @@
 </head>
 
 <body>
-    <h1>Batch Image Analysis 3</h1>
+    <div id="content">
+        <h1 id="header">Batch Image Analysis 4</h1>
+    </div>
     <script src="https://js.puter.com/v2/"></script>
     <script>
         const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadata/";
@@ -164,6 +166,11 @@ Return everything as a JSON object of type {category: 'put category's number her
 
             console.log("Analysis Results:", analysisResults);
             // Display the JSON as a formatted string
+            const headingElement = document.getElementById('header');
+            // Remove the element
+            if (headingElement) {
+                headingElement.remove();
+            }
             document.body.innerHTML += `<pre><code>${JSON.stringify(analysisResults, null, 2)}</code></pre>`;
         })();
     </script>
