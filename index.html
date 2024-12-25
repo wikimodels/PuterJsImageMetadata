@@ -163,7 +163,7 @@ Return everything as a JSON object of type {category: 'put category's number her
 
             console.log("Analysis Results:", analysisResults);
             // Display the JSON as a formatted string
-            document.body.innerHTML += `<pre>${JSON.stringify(analysisResults, null, 2)}</pre>`;
+            document.body.innerHTML += `<code>${JSON.stringify(analysisResults, null, 2)}</code>`;
         })();
     </script>
 </body>
