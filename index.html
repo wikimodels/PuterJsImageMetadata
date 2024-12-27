@@ -12,7 +12,6 @@
     <script src="https://js.puter.com/v2/"></script>
     <script>
         const baseUrl = "https://wikimodels.github.io/PuterJsImageMetadata/";
-
         // Function to fetch image list
         async function fetchImageList() {
             try {
@@ -41,21 +40,22 @@
                 const response = await puter.ai.chat(
                     `Please,
 1. Follow the SEO-Optimized Title Guidelines:
+   - Title length is limited to 70 characters
    - For Images of Living Beings (Humans, Animals, etc.): The title should follow the format: [who or what is in the picture] [with what mood] [what they are doing or what it represents] [against what background]. Example: 'A happy young woman with a bright smile reading a book in a cozy coffee shop.'
    - For Non-Living Images (e.g., Objects, Architecture, Nature): The title should follow the format: [what is depicted in the picture] [in what style] [in what colors] [what it represents or what it is used for]. Example: 'Modern abstract geometric shapes in vibrant red and yellow, symbolizing creativity.'
    - If the Image has Space for Text: If the image has a lot of empty space that could be used for text, add [with copy space] to the title.
    - Make sure the title is not longer than 200 characters . 
 
 2. Give me the keywords that follow the General Guidelines for Keywords:
-   - These keywords should cover specific aspects of the image and help improve its discoverability.
-   - They must consist of single words. For example, if you need to add 'Asian elder,' break it down into 'Asian' and 'elder.'
+   - These keywords should cover specific aspects of the image and help improve its discoverability.   
    - Keywords must start with more relevant and specific terms and move to more general terms.
    - Make sure you find only 49 keywords. Not more, not less.
    - Make all keywords in lowercase.
    - Note: Do not repeat keywords that are already in the title.
-   - Keywords should expand the search terms and help potential users find your image.
-   - Below is the general guidance on how to pick up keywords, but additional relevant keywords can be added if necessary.
-
+   - Keywords should expand the search terms and help potential users find your image.   
+   - use singular nouns: singular forms are preferred, as plural variations will be automatically recognized in searches3. 
+   - include verbs: describe actions using infinitive verbs (e.g., "run," "jump," "smile") to convey activity effectively.
+   - conceptual keywords: after detailing the main elements, add conceptual keywords that reflect feelings or trends (e.g., "celebration", "solitude") to enhance emotional connection with potential buyers.    
    Keywords Rules For Humans:
    - Race/Ethnicity: Caucasian, Hispanic, African, Asian, Middle-Eastern, Latino, European, Indian, Black, White, East Asian, South Asian, etc.
    - Gender: Male, Female, Non-binary, Transgender, Man, Woman, Boy, Girl, Masculine, Feminine, etc.
@@ -117,7 +117,7 @@
 
 4. Image File Name: Attach the image file name. Don't change it in any case. Leave it as it is.
 
-Return everything as a JSON object of type {category: 'put category's number here', title: 'here goes your title', keywords: ['keyword 1', 'keyword 2', ...], imageFile: 'here goes the name of the file which is ${fileName}'}`,
+Return everything as a JSON object of type {category: 'put category's number here', title: 'here goes your title', keywords: ['keyword 1', 'keyword 2', ...], fileName: 'here goes the name of the file which is ${fileName}'}`,
                     url
                 );
 
